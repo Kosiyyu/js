@@ -1,66 +1,36 @@
 const id = ["pomodoro","break-5","break-15"] ;
 
-var mainTimer = 0;
-var downloadTimer = setInterval(function(){
-    mainTimer++;
-//document.getElementById("timer-pomodoro").textContent = timeleft;
-if(mainTimer <= 0)
-    clearInterval(downloadTimer);
-},1000);
-
-let Timer = class {
-    seconds = 0;
-    minuts = 0;
-//test
-    constructor(minuts, seconds) {
-        //max minuts = 25
-        //max seconds = 60
+const Timer = class {
+    constructor(name, seconds) {
+        this.name = name;
         this.seconds = seconds;
-        this.minuts = minuts;
+        this.break = false;
     }
 
-    getSeconds(){
-        return this.seconds;
+    togglePause(){
+        this.break = !this.break;
     }
 
-    setSeconds(seconds){
-        this.seconds = seconds;
-    }
-
-    getMinuts(){
-        return this.minuts;
-    }
-
-    setMinutes(minuts){
-        this.minuts = minuts;
-    }
-
-    checkTimer(){
-        if(this.seconds == 60){
-            this.minuts++;
-            this.seconds = 0;
+    startTimer(){
+        var counter = setInterval(test.bind(this),1000);
+        this.togglePause.bind(this);
+        function test(){
+            if(this.seconds <= 0){
+                console.log(this.seconds);
+                clearInterval(counter);
+            }
+            else if(this.break){
+                clearInterval(counter);
+            }
+            else {
+                console.log(this.seconds);
+            this.seconds--;
+            }
         }
     }
-
-    toString(){
-        this.checkTimer();
-        let str = "";
-        if(this.minuts >= 10){
-            str += this.minuts + ":";
-        }
-        else {
-            str +="0"+this.minuts + ":";
-        }
-        if(this.seconds >= 10){
-            str += this.seconds;
-        }
-        else {
-            str +="0"+this.seconds;
-        }
-        return str;
-    }
-
   };
 
-const pomodoro = new Timer(25,60);
-console.log(pomodoro.toString());
+const pomodoro = new Timer("pomodoro",3);
+pomodoro.startTimer();
+
+
