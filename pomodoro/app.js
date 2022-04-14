@@ -11,7 +11,7 @@ if(mainTimer <= 0)
 let Timer = class {
     seconds = 0;
     minuts = 0;
-
+//test
     constructor(minuts, seconds) {
         //max minuts = 25
         //max seconds = 60
