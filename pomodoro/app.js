@@ -1,4 +1,9 @@
-const id = ["pomodoro","break-5","break-15"] ;
+"use strict"
+
+// const cycleText = ["pomodoro","break-5","pomodoro","break-5","pomodoro","break-5","pomodoro","break-15"];
+const cycleValue = [1499,299,1449,299,1499,299,1499,899];
+
+var cycleCounter = 0;
 
 const myTime = new Intl.DateTimeFormat("default",{
     minute: "numeric",
@@ -27,6 +32,20 @@ const Timer = class {
                 this.date.setSeconds(this.seconds);
                 this.updateTimer(myTime.format(this.date));
                 clearInterval(counter);
+                //
+                if(cycleCounter != 7){
+                    cycleCounter++;
+                }
+                else {
+                    cycleCounter = 0;
+                }
+                this.date.setMinutes(0);
+                this.seconds = cycleValue[cycleCounter];
+                this.date.setSeconds(this.seconds + 1);
+                this.updateTimer(myTime.format(this.date));
+                var audio = new Audio('achievement-bell.WAV')
+                audio.play();
+                this.startTimer();
             }
             else if(this.break){
                 clearInterval(counter);
@@ -64,11 +83,13 @@ const Timer = class {
         element.addEventListener("click", listen.bind(this))
     }
 
+    // testTool(seconds){
+    //     this.date.setMinutes(0);
+    //     this.seconds = seconds;
+    //     this.date.setSeconds(this.seconds);
+    // }
+
   };
 
-const pomodoro = new Timer("pomodoro",1499);
-const break5 = new Timer("break5",299)
-const break15 = new Timer("break15",899)
+const pomodoro = new Timer("pomodoro",cycleValue[cycleCounter]);
 pomodoro.updateButton();
-break5.updateButton();
-break15.updateButton();
